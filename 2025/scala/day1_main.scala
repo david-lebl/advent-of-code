@@ -18,6 +18,6 @@ import scala.io.Source
   println(s"Password is: $result")
 
 @main def fullData(): Unit =
-  val input = Source.fromFile("./day1_input.txt").mkString
+  val input = Source.fromFile("../inputs/day1_input.txt").mkString
   val result = program(input)
   println(s"Password is: $result")
