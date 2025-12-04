@@ -2,8 +2,8 @@
 
 Code in DB:
 ```unison
-advent.day1.decode: [Int] -> Int
-advent.day1.decode input =
+decode: [Int] -> Int
+decode input =
     let
         loop : Int -> Int -> [Int] -> Int
         loop dial zeros = cases
@@ -15,8 +15,8 @@ advent.day1.decode input =
                 else loop moved zeros tail
         loop +50 +0 input
 
-advent.day1.program: Text -> {Exception} Int
-advent.day1.program input = 
+program: Text -> {Exception} Int
+program input = 
     unwrap: Text -> Optional a -> {Exception} a
     unwrap msg = cases
       Some value -> value
@@ -35,8 +35,8 @@ advent.day1.program input =
 
 Main - example:
 ```unison
-advent.day1.example: '{IO, Exception} ()
-advent.day1.example _ = 
+example: '{IO, Exception} ()
+example _ = 
     result = program """
     L68
     L30
@@ -54,8 +54,8 @@ advent.day1.example _ =
 
 Main - full data:
 ```unison
-advent.day1.fullData: '{IO, Exception} ()
-advent.day1.fullData _ = 
+fullData: '{IO, Exception} ()
+fullData _ = 
     inputData = readFileUtf8 (FilePath "../inputs/day1_input.txt")
     result = program inputData
     printLine ("Password is: " ++ (Int.toText result))
@@ -63,5 +63,5 @@ advent.day1.fullData _ =
 
 Running the examples from tmp file `scratch.u`
 ```ucm
-run advent.day1.fullData
+run fullData
 ```
