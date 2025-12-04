@@ -1,7 +1,3 @@
-# Day 1
-
-Code in DB:
-```unison
 advent.day1.decode: [Int] -> Int
 advent.day1.decode input =
     let
@@ -31,10 +27,7 @@ advent.day1.program input =
         lines = splitOnNewline input
         moves = List.map parse lines
         decode moves
-```
 
-Main - example:
-```unison
 advent.day1.example: '{IO, Exception} ()
 advent.day1.example _ = 
     result = program """
@@ -50,18 +43,10 @@ advent.day1.example _ =
     L82
     """
     printLine ("Password is: " ++ (Int.toText result))
-```
 
-Main - full data:
-```unison
 advent.day1.fullData: '{IO, Exception} ()
 advent.day1.fullData _ = 
     inputData = readFileUtf8 (FilePath "../inputs/day1_input.txt")
     result = program inputData
     printLine ("Password is: " ++ (Int.toText result))
-```
 
-Running the examples from tmp file `scratch.u`
-```ucm
-run advent.day1.fullData
-```
