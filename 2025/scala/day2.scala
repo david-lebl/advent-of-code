@@ -1,17 +1,16 @@
 package day2
 
-def checkId(input: Long): Boolean =
-  val inStr = input.toString
+def isInvalidId(id: Long): Boolean =
+  val inStr = id.toString
   val (a, b) = inStr.splitAt(inStr.length / 2)
-  a != b
+  a == b
 
 def program(input: String): Long =
   input
     .split(",")
-    .filter(_.nonEmpty)
     .flatMap:
-      case s"$from-$to" => List.range(from.toLong, to.toLong + 1L)
-    .filterNot(checkId)
+      case s"$a-$b" => a.toLong to b.toLong
+    .filter(isInvalidId)
     .sum
 
 @main def example() =
