@@ -2,15 +2,15 @@
 
 Code in DB:
 ```unison
-day2.isInvalid: Nat -> Boolean
-day2.isInvalid id = 
-  let
-    txt = Nat.toText id
-    len = Text.size txt
-    (a,b) = Text.splitAt (len / 2) txt
-    match (Nat.fromText a, Nat.fromText b) with
-      (Some a, Some b) -> a == b
-      _ -> bug "Failed to parse id"
+isInvalid : Nat -> Boolean
+isInvalid id =
+  use Nat / == fromText
+  txt = Nat.toText id
+  len = Text.size txt
+  (a, b) = Text.splitAt (len / 2) txt
+  match (fromText a, fromText b) with
+    (Some a, Some b) -> a == b
+    _                -> bug "Failed to parse id"
 
 day2.expandRange: Text -> [Nat]
 day2.expandRange text = 
@@ -21,13 +21,12 @@ day2.expandRange text =
       List.rangeClosed fromNum toNum
     _ -> bug "invalid range"
 
-day2.program: Text -> Nat
+day2.program : Text -> Nat
 day2.program input =
-  let 
-    ranges = Text.split ?, input
-    ids = List.flatMap expandRange ranges
-    invalidIds = List.filter isInvalid ids
-    Nat.sum invalidIds
+  ranges = Text.split ?, input
+  ids = List.flatMap expandRange ranges
+  invalidIds = List.filter isInvalid ids
+  Nat.sum invalidIds
 ```
 
 Main - example:
