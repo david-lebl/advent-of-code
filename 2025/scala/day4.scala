@@ -9,7 +9,7 @@ extension (grid: Grid)
 
 object Grid:
   def fromString(s: String): Grid =
-    s.split('\n').map(_.toCharArray)
+    s.linesIterator.map(_.toCharArray).toArray
 
 def program(grid: Grid): Long =
   (for
