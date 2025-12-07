@@ -26,8 +26,7 @@ def findNeighbours(grid: Grid): Seq[(x: Int, y: Int, cnt: Long)] =
         if grid.isDefinedAt(nx, ny)
         if (x, y) != (nx, ny)
       yield grid(ny)(nx)
-    cnt = papers.count(_ == '@')
-  yield (x = x, y = y, cnt = cnt)
+  yield (x = x, y = y, cnt = papers.count(_ == '@'))
 
 def program_part1(grid: Grid): Long = findNeighbours(grid).count(_.cnt < 4)
 def program_part1(matrix: String): Long = program_part1(Grid.fromString(matrix))
