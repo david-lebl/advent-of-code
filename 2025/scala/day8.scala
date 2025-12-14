@@ -41,7 +41,7 @@ def prepare(input: Iterator[String], limit: Int) =
     .map:
       case List(a, b) => a -> b
     .toList
-    .sortBy((a, b) => a distance b)
+    .sortBy(_ distance _)
     .take(limit)
   (boxes = boxes.map(Set(_)), links = links)
 
