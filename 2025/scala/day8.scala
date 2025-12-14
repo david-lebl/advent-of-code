@@ -1,5 +1,6 @@
 package day8
 
+import scala.annotation.tailrec
 import scala.io.Source
 
 case class Box(x: Int, y: Int, z: Int):
@@ -21,23 +22,41 @@ def connect(circuits: List[Circuit], link: (Box, Box)): List[Circuit] =
       _.intersect(x).nonEmpty
   intersecting.reduce(_ ++ _) :: distinct
 
-def program(input: Iterator[String], limit: Int): Long =
+@tailrec
+def connectAll(
+    pairs: List[(Box, Box)],
+    circuits: List[Circuit],
+    size: Long
+): Long =
+  pairs match
+    case pair :: next =>
+      connect(circuits, pair) match
+        case List(a) if a.size == size => pair._1.x.toLong * pair._2.x
+        case a                         => connectAll(next, a, size)
+
+def prepare(input: Iterator[String], limit: Int) =
   val boxes = input.map(Box.fromString).toList
   val links = boxes
     .combinations(2)
     .map:
-      case List(a, b) => (pair = a -> b, distance = a distance b)
+      case List(a, b) => a -> b
     .toList
-    .sortBy(_.distance)
-
-  links
+    .sortBy((a, b) => a distance b)
     .take(limit)
-    .map(_.pair)
-    .foldLeft(boxes.map(Set(_)))(connect)
+  (boxes = boxes.map(Set(_)), links = links)
+
+def program(input: Iterator[String], limit: Int): Long =
+  val (boxes, links) = prepare(input, limit)
+  links
+    .foldLeft(boxes)(connect)
     .map(_.size)
     .sorted
     .takeRight(3)
     .product
+
+def program2(input: Iterator[String], limit: Int): Long =
+  val (boxes, links) = prepare(input, limit)
+  connectAll(links, boxes, boxes.size)
 
 val exampleData =
   """162,817,812
@@ -71,4 +90,13 @@ lazy val fullData = Source.fromFile("../inputs/day8_input.txt").getLines()
 
 @main def part1() =
   val res = program(fullData, 1000)
+  println(s"Result: $res")
+
+@main def part2_example() =
+  val res = program2(exampleData, Int.MaxValue)
+  println(s"Result: $res")
+  assert(res == 25272)
+
+@main def part2() =
+  val res = program2(fullData, Int.MaxValue)
   println(s"Result: $res")
